@@ -1,0 +1,21 @@
+.resaltada {
+	-fx-background-color:black;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-padding: 0 5px;
+}
+
+.total {
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}
+
+.campo-total {
+	-fx-font-size: 15px;
+	-fx-border-color: lightgrey;
+	-fx-border-width: 6px;
+}
+
+.table-view .column-header {
+	-fx-font-size: 10px;
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="1024.0" stylesheets="@factura.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="458.0" prefWidth="607.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="146.0" minWidth="0.0" prefWidth="52.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="484.0" minWidth="10.0" prefWidth="212.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="547.0" minWidth="0.0" prefWidth="97.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="714.0" minWidth="10.0" prefWidth="631.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label styleClass="resaltada" text="FECHA" />
+                  <Label styleClass="resaltada" text="CLIENT" GridPane.rowIndex="1" />
+                  <Label text="3/10/2016" GridPane.columnIndex="1" />
+                  <Label text="00392 MAD LAN" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label styleClass="resaltada" text="OP_NUMERO" GridPane.columnIndex="2" />
+                  <Label styleClass="resaltada" text="ENTREGA" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label text="23781" GridPane.columnIndex="3" />
+                  <Label GridPane.columnIndex="3" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="754.0" minWidth="10.0" prefWidth="745.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="34.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="128.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" text="INF" GridPane.columnIndex="1" />
+                  <Label prefHeight="17.0" prefWidth="148.0" styleClass="resaltada" text="DETALLE" GridPane.rowIndex="1" />
+                  <Label prefHeight="17.0" prefWidth="61.0" styleClass="resaltada" text="FACT Nº" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+              <columns>
+                <TableColumn prefWidth="58.0" text="OP_NUM" />
+                <TableColumn prefWidth="74.0" text="CANTIDAD" />
+                  <TableColumn prefWidth="142.0" text="NOMBRE_ARCHIVO" />
+                  <TableColumn prefWidth="29.0" text="Imp." />
+                  <TableColumn prefWidth="28.0" text="RE." />
+                  <TableColumn prefWidth="28.0" text="ENT." />
+                  <TableColumn prefWidth="131.0" text="OBSERVACIONES" />
+                  <TableColumn prefWidth="100.0" text="SUSTRATO" />
+                  <TableColumn prefWidth="40.0" text="CORTE" />
+                  <TableColumn prefWidth="43.0" text="COPIA" />
+                  <TableColumn prefWidth="46.0" text="ANCHO" />
+                  <TableColumn prefWidth="42.0" text="ALTO" />
+                  <TableColumn prefWidth="33.0" text="M2" />
+                  <TableColumn prefWidth="74.0" text="COSTO_UNI" />
+                  <TableColumn prefWidth="60.0" text="IMPORTE" />
+                  <TableColumn prefWidth="65.0" text="LAMI" />
+              </columns>
+            </TableView>
+            <GridPane hgap="8.0" prefHeight="42.0" prefWidth="994.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="242.0" minWidth="10.0" prefWidth="117.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="560.0" minWidth="10.0" prefWidth="478.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="409.0" minWidth="10.0" prefWidth="389.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="40.0" valignment="TOP" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="17.0" prefWidth="116.0" styleClass="resaltada" text="OBSERVACIONES:" />
+                  <TextArea prefHeight="40.0" prefWidth="457.0" GridPane.columnIndex="1" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="2">
+                     <children>
+                        <Label styleClass="total" text="TOTAL:" />
+                        <TextField alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="218.0" styleClass="campo-total" text="\$502,4" />
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+</AnchorPane>
