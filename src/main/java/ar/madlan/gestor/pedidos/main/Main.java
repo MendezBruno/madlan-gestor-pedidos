@@ -1,5 +1,6 @@
 package ar.madlan.gestor.pedidos.main;
 
+import ar.madlan.gestor.pedidos.vista.PedidosController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

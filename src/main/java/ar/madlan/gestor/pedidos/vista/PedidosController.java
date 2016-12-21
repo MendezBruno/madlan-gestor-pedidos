@@ -1,4 +1,4 @@
-package ar.madlan.gestor.pedidos.main;
+package ar.madlan.gestor.pedidos.vista;
 
 import java.net.URL;
 import java.util.ResourceBundle;
