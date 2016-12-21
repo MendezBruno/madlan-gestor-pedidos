@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -7,25 +11,53 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="346.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="442.0" prefWidth="725.0" stylesheets="@pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER" layoutX="111.0" layoutY="35.0" prefHeight="346.0" prefWidth="304.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="lblTitulo" prefHeight="40.0" text="Label" />
-            <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-              <columns>
-                <TableColumn prefWidth="75.0" text="Item" />
-                <TableColumn prefWidth="75.0" text="Monto" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Accion">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Nuevo pedido..." />
+                        <MenuItem mnemonicParsing="false" text="Clientes..." />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem mnemonicParsing="false" text="Cerrar" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ayuda">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Acerca de..." />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <VBox VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Label fx:id="lblPedidos" prefHeight="40.0" text="Pedidos" textAlignment="CENTER" />
+                     </children>
+                  </HBox>
+                  <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn prefWidth="75.0" text="Cliente" />
+                        <TableColumn prefWidth="83.0" text="Fecha límite" />
+                        <TableColumn prefWidth="106.0" text="Detalle" />
+                      <TableColumn prefWidth="68.0" text="Monto ($)" />
+                        <TableColumn prefWidth="78.0" text="Pagado ($)" />
+                      <TableColumn prefWidth="70.0" text="Proceso" />
+                        <TableColumn prefWidth="72.0" text="Entregado" />
+                        <TableColumn prefWidth="44.0" text="Pago" />
+                        <TableColumn prefWidth="98.0" text="Acciones" />
+                    </columns>
+                  </TableView>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
          </children>
       </VBox>
    </children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
 </AnchorPane>
