@@ -13,9 +13,16 @@ public class Pedido {
 	private ArrayList<Pago> pagos = new ArrayList<>();
 	private Cliente cliente;
 	
-	public boolean pagado() {
-		return items.stream().map(i -> i.getMonto()).reduce(Double::sum).equals(
-				pagos.stream().map(p -> p.getMonto()).reduce(Double::sum));
+	public Double getMontoPagado() {
+		return pagos.stream().map(p -> p.getMonto()).reduce(Double::sum).orElse(0.0);
+	}
+	
+	public Double getMontoCosto() {
+		return items.stream().map(i -> i.getMonto()).reduce(Double::sum).orElse(0.0);
+	}
+	
+	public boolean pago() {
+		return getMontoCosto().equals(getMontoPagado());
 	}
 	
 	public Instant getFechaIngreso() {
