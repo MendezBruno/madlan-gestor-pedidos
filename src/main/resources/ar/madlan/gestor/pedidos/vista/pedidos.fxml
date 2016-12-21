@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="442.0" prefWidth="725.0" stylesheets="@pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="442.0" prefWidth="725.0" stylesheets="@pedidos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER" layoutX="111.0" layoutY="35.0" prefHeight="346.0" prefWidth="304.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -19,15 +19,15 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Accion">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Nuevo pedido..." />
-                        <MenuItem mnemonicParsing="false" text="Clientes..." />
+                    <MenuItem fx:id="menuBtnNuevoPedido" mnemonicParsing="false" text="Nuevo pedido..." />
+                        <MenuItem fx:id="menuBtnClientes" mnemonicParsing="false" text="Clientes..." />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                    <MenuItem mnemonicParsing="false" text="Cerrar" />
+                    <MenuItem fx:id="menuBtnCerrar" mnemonicParsing="false" text="Cerrar" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Ayuda">
+                <Menu fx:id="menuBtn" mnemonicParsing="false" text="Ayuda">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Acerca de..." />
+                    <MenuItem fx:id="menuBtnAcercaDe" mnemonicParsing="false" text="Acerca de..." />
                   </items>
                 </Menu>
               </menus>
@@ -39,17 +39,17 @@
                         <Label fx:id="lblPedidos" prefHeight="40.0" text="Pedidos" textAlignment="CENTER" />
                      </children>
                   </HBox>
-                  <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tabla" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="Cliente" />
-                        <TableColumn prefWidth="83.0" text="Fecha límite" />
-                        <TableColumn prefWidth="106.0" text="Detalle" />
-                      <TableColumn prefWidth="68.0" text="Monto ($)" />
-                        <TableColumn prefWidth="78.0" text="Pagado ($)" />
-                      <TableColumn prefWidth="70.0" text="Proceso" />
-                        <TableColumn prefWidth="72.0" text="Entregado" />
-                        <TableColumn prefWidth="44.0" text="Pago" />
-                        <TableColumn prefWidth="98.0" text="Acciones" />
+                        <TableColumn fx:id="columnaCliente" prefWidth="75.0" text="Cliente" />
+                        <TableColumn fx:id="columnaFechaLimite" prefWidth="83.0" text="Fecha límite" />
+                        <TableColumn fx:id="columnaDetalle" prefWidth="106.0" text="Detalle" />
+                      <TableColumn fx:id="columnaMonto" prefWidth="68.0" text="Monto ($)" />
+                        <TableColumn fx:id="columnaPagado" prefWidth="78.0" text="Pagado ($)" />
+                      <TableColumn fx:id="columnaProceso" prefWidth="70.0" text="Proceso" />
+                        <TableColumn fx:id="columnaEntregado" prefWidth="72.0" text="Entregado" />
+                        <TableColumn fx:id="columnaPago" prefWidth="44.0" text="Pago" />
+                        <TableColumn fx:id="columnaAcciones" prefWidth="98.0" text="Acciones" />
                     </columns>
                   </TableView>
                </children>

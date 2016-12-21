@@ -2,3 +2,7 @@
 	-fx-font-size: 25px;
 	-fx-font-style: italic;
 }
+
+.table-view .table-column {
+	-fx-alignment: CENTER;
+}
