@@ -1,6 +1,8 @@
 package ar.madlan.gestor.pedidos.vista;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
@@ -14,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
@@ -135,6 +139,25 @@ public class FilaPedido {
 				if (!empty) {
 					FilaPedido fila = (FilaPedido) getTableRow().getItem();
 					setGraphic(fila.acciones);
+				}
+			}
+		};
+	}
+
+	public static TableRow<FilaPedido> getTableRow(TableView<FilaPedido> tabla) {
+		return new TableRow<FilaPedido>() {
+			@Override
+			protected void updateItem(FilaPedido item, boolean empty) {
+				super.updateItem(item, empty);
+				setStyle("");
+				if (!empty) {
+					if (item.entregado.get()){
+						setStyle("-fx-background-color: #D9EAD3");
+					} else if (item.pedido.getFechaLimite()
+							.minus(Duration.ofDays(15)).isBefore(Instant.now())){
+						//Si la fecha limite menos 15 dias es antes que ahora -> riesgo
+						setStyle("-fx-background-color: #F4CCCC");
+					}
 				}
 			}
 		};

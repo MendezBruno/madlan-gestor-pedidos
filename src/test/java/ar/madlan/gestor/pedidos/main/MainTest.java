@@ -52,6 +52,7 @@ public class MainTest extends Application{
 		pedido.setFechaIngreso(Instant.now());
 		pedido.setFechaLimite(Instant.now());
 		pedido.setNumero(666);
+//		pedido.setEntregado(true);
 		return new FilaPedido(pedido);
 	}
 }

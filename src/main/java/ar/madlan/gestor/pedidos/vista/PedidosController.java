@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -51,7 +52,11 @@ public class PedidosController implements Initializable, MixinController {
 		columnaPago.setCellValueFactory(data -> data.getValue().getPago());
 		
 		columnaDetalle.setCellFactory(tc -> FilaPedido.getTableCellDetalle());
+		columnaEntregado.setCellFactory(CheckBoxTableCell.forTableColumn(columnaEntregado));
+		columnaPago.setCellFactory(CheckBoxTableCell.forTableColumn(columnaPago));
 		columnaAcciones.setCellFactory(tc -> FilaPedido.getTableCellAcciones());
+		
+		tabla.setRowFactory(tabla -> FilaPedido.getTableRow(tabla));
 	}
 	
 	@Override
