@@ -1,5 +1,6 @@
 package ar.madlan.gestor.pedidos.vista;
 
+import java.io.IOException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
@@ -13,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableCell;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
 
 public class FilaPedido {
@@ -20,7 +23,7 @@ public class FilaPedido {
 	private Pedido pedido;
 	private StringProperty cliente = new SimpleStringProperty();
 	private StringProperty fechaLimite = new SimpleStringProperty();
-	private Button btnDetalle = new Button("Ver");
+	private Button btnVer = new Button("Ver");
 	private DoubleProperty monto = new SimpleDoubleProperty();
 	private DoubleProperty pagado = new SimpleDoubleProperty();
 	private StringProperty proceso = new SimpleStringProperty();
@@ -37,6 +40,7 @@ public class FilaPedido {
 		acciones.getItems().addAll(menuItemEditar, menuItemBorrar);
 		acciones.setText("Editar");
 		acciones.setOnAction(e -> onEditar());
+		btnVer.setOnAction(e -> onVer());
 	}
 
 	public void setPedido(Pedido pedido) {
@@ -60,6 +64,20 @@ public class FilaPedido {
 	private void onBorrar() {
 		acciones.setText("Borrar");
 		acciones.setOnAction(e -> onBorrar());
+	}
+	
+
+	private void onVer() {
+		try {
+			Stage ventanaDetalle = new Stage();
+			DetalleController detalleController = new DetalleController(pedido);
+			detalleController.cargar(ventanaDetalle);
+			ventanaDetalle.initOwner(PedidosController.stage.getScene().getWindow());
+			ventanaDetalle.initModality(Modality.APPLICATION_MODAL);
+			ventanaDetalle.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Pedido getPedido() {
@@ -102,7 +120,7 @@ public class FilaPedido {
 				setGraphic(null);
 				if (!empty) {
 					FilaPedido fila = (FilaPedido) getTableRow().getItem();
-					setGraphic(fila.btnDetalle);
+					setGraphic(fila.btnVer);
 				}
 			}
 		};

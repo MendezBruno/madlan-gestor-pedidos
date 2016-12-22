@@ -1,5 +1,6 @@
 package ar.madlan.gestor.pedidos.vista;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -10,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class PedidosController implements Initializable, MixinController {
 	
@@ -37,6 +39,7 @@ public class PedidosController implements Initializable, MixinController {
 	private TableColumn<FilaPedido, String> columnaAcciones;
 	
 	private static final String RUTA_FXML = "pedidos.fxml";
+	public static Stage stage;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		columnaCliente.setCellValueFactory(data -> data.getValue().getCliente());
@@ -49,6 +52,12 @@ public class PedidosController implements Initializable, MixinController {
 		
 		columnaDetalle.setCellFactory(tc -> FilaPedido.getTableCellDetalle());
 		columnaAcciones.setCellFactory(tc -> FilaPedido.getTableCellAcciones());
+	}
+	
+	@Override
+	public void cargar(Stage stage) throws IOException {
+		MixinController.super.cargar(stage);
+		PedidosController.stage = stage;
 	}
 
 	@Override
