@@ -3,8 +3,7 @@ package ar.madlan.gestor.pedidos.vista;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -21,6 +20,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
+import ar.madlan.gestor.pedidos.modelo.Proceso;
+import ar.madlan.gestor.pedidos.util.Fecha;
 
 public class FilaPedido {
 	
@@ -50,12 +51,10 @@ public class FilaPedido {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 		cliente.set(pedido.getCliente().getNombre());
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
-				"dd/MMM/yyyy").withZone(ZoneId.systemDefault());
-		fechaLimite.set(formatter.format(pedido.getFechaLimite()));
+		fechaLimite.set(Fecha.formatter.format(pedido.getFechaLimite()));
 		monto.set(pedido.getMontoCosto());
 		pagado.set(pedido.getMontoPagado());
-		proceso.set(pedido.getProceso().toString());
+		proceso.set(pedido.getUltimoProceso().getDescripcion());
 		entregado.set(pedido.entregado());
 		pago.set(pedido.pago());
 	}
@@ -73,12 +72,12 @@ public class FilaPedido {
 
 	private void onVer() {
 		try {
-			Stage ventanaDetalle = new Stage();
-			DetalleController detalleController = new DetalleController(pedido);
-			detalleController.cargar(ventanaDetalle);
-			ventanaDetalle.initOwner(PedidosController.stage.getScene().getWindow());
-			ventanaDetalle.initModality(Modality.APPLICATION_MODAL);
-			ventanaDetalle.show();
+			Stage ventanaPedido = new Stage();
+			PedidoController pedidoController = new PedidoController(pedido);
+			pedidoController.cargar(ventanaPedido);
+			ventanaPedido.initOwner(PedidosController.stage.getScene().getWindow());
+			ventanaPedido.initModality(Modality.APPLICATION_MODAL);
+			ventanaPedido.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

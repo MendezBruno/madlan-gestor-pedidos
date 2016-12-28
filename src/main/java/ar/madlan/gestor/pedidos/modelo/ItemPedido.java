@@ -4,8 +4,9 @@ import java.time.Instant;
 
 public class ItemPedido {
 	private long fechaCreacion;
-	private double monto;
+	private double precioUnitario;
 	private String descripcion;
+	private double cantidad;
 	
 	public String getDescripcion() {
 		return descripcion;
@@ -13,16 +14,25 @@ public class ItemPedido {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public double getMonto() {
-		return monto;
-	}
-	public void setMonto(double monto) {
-		this.monto = monto;
-	}
 	public Instant getFechaCreacion() {
 		return Instant.ofEpochMilli(fechaCreacion);
 	}
 	public void setFechaCreacion(Instant fechaCreacion) {
 		this.fechaCreacion = fechaCreacion.toEpochMilli();
+	}
+	public double getCantidad() {
+		return cantidad;
+	}
+	public void setCantidad(double cantidad) {
+		this.cantidad = cantidad;
+	}
+	public double getPrecioUnitario() {
+		return precioUnitario;
+	}
+	public void setPrecioUnitario(double precioUnitario) {
+		this.precioUnitario = precioUnitario;
+	}
+	public double getImporte() {
+		return precioUnitario * cantidad;
 	}
 }

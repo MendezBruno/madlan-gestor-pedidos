@@ -6,6 +6,7 @@ import ar.madlan.gestor.pedidos.modelo.Cliente;
 import ar.madlan.gestor.pedidos.modelo.ItemPedido;
 import ar.madlan.gestor.pedidos.modelo.Pago;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
+import ar.madlan.gestor.pedidos.modelo.Proceso;
 import ar.madlan.gestor.pedidos.vista.FilaPedido;
 import ar.madlan.gestor.pedidos.vista.PedidosController;
 import javafx.application.Application;
@@ -34,10 +35,12 @@ public class MainTest extends Application{
 		Cliente cliente = new Cliente();
 		itemPedido1.setDescripcion("La paz mundial");
 		itemPedido1.setFechaCreacion(Instant.now());
-		itemPedido1.setMonto(2.0);
+		itemPedido1.setCantidad(10.0);
+		itemPedido1.setPrecioUnitario(1.0);
 		itemPedido2.setDescripcion("Una hamburguesa");
 		itemPedido2.setFechaCreacion(Instant.now());
-		itemPedido2.setMonto(4.0);
+		itemPedido2.setCantidad(6.0);
+		itemPedido2.setPrecioUnitario(7.0);
 		pago1.setMonto(1.0);
 		pago1.setFecha(Instant.now());
 		pago2.setMonto(5.0);
@@ -52,6 +55,10 @@ public class MainTest extends Application{
 		pedido.setFechaIngreso(Instant.now());
 		pedido.setFechaLimite(Instant.now());
 		pedido.setNumero(666);
+		Proceso proceso = new Proceso();
+		proceso.setDescripcion("Haciendo algo");
+		proceso.setFecha(Instant.now());
+		pedido.getProcesos().add(proceso);
 //		pedido.setEntregado(true);
 		return new FilaPedido(pedido);
 	}

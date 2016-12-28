@@ -8,7 +8,7 @@ public class Pedido {
 	private long fechaIngreso;
 	private long fechaLimite;
 	private boolean entregado = false;
-	private Proceso proceso = Proceso.EnEspera;
+	private ArrayList<Proceso> procesos = new ArrayList<>();
 	private ArrayList<ItemPedido> items = new ArrayList<>();
 	private ArrayList<Pago> pagos = new ArrayList<>();
 	private Cliente cliente;
@@ -18,7 +18,7 @@ public class Pedido {
 	}
 	
 	public Double getMontoCosto() {
-		return items.stream().map(i -> i.getMonto()).reduce(Double::sum).orElse(0.0);
+		return items.stream().map(i -> i.getImporte()).reduce(Double::sum).orElse(0.0);
 	}
 	
 	public boolean pago() {
@@ -57,14 +57,6 @@ public class Pedido {
 		this.entregado = entregado;
 	}
 
-	public Proceso getProceso() {
-		return proceso;
-	}
-
-	public void setProceso(Proceso proceso) {
-		this.proceso = proceso;
-	}
-
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -79,5 +71,12 @@ public class Pedido {
 
 	public ArrayList<Pago> getPagos() {
 		return pagos;
+	}
+
+	public ArrayList<Proceso> getProcesos() {
+		return procesos;
+	}
+	public Proceso getUltimoProceso() {
+		return procesos.get(procesos.size()-1);
 	}
 }
