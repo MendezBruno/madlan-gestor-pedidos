@@ -12,11 +12,20 @@ public interface MixinController {
 	String getFxml();
 	
 	default public void cargar(Stage stage) throws IOException {
+		cargar();
+		stage.setScene(new Scene(getNode()));
+		onCargar(stage);
+	}
+	
+	default void onCargar(Stage stage) {
+		
+	}
+
+	default public void cargar() throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(MixinController.class.getResource(getFxml()));
 		fxmlLoader.setController(this);
 		fxmlLoader.load();
-		stage.setScene(new Scene(getNode()));
 	}
 	
 	public Parent getNode();
