@@ -1,7 +1,10 @@
 package ar.madlan.gestor.pedidos.vista;
 
 import java.net.URL;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import ar.madlan.gestor.pedidos.modelo.ItemPedido;
 import ar.madlan.gestor.pedidos.modelo.Pago;
@@ -10,7 +13,10 @@ import ar.madlan.gestor.pedidos.util.Fecha;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
@@ -19,6 +25,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class PedidoController implements Initializable, MixinController {
 	
@@ -97,6 +104,7 @@ public class PedidoController implements Initializable, MixinController {
 		columnaItemsPedido.setCellValueFactory(data -> data.getValue().getDescripcion());
 		columnaItemsPrecioUnitario.setCellValueFactory(data -> data.getValue().getPrecioUnitario());
 		columnaItemsImporte.setCellValueFactory(data -> data.getValue().getImporte());
+		tablaItems.setRowFactory(tabla -> FilaItemPedido.getRowFactory());
 		columnaPagosSeleccion.setCellFactory(CheckBoxTableCell.forTableColumn(columnaPagosSeleccion));
 		columnaPagosSeleccion.setCellValueFactory(data -> data.getValue().getSeleccion());
 		columnaPagosFecha.setCellValueFactory(data -> data.getValue().getFecha());
@@ -118,5 +126,46 @@ public class PedidoController implements Initializable, MixinController {
 		txtFechaEntrega.setText(Fecha.formatter.format(pedido.getFechaLimite()));
 		chkEntregado.setSelected(pedido.entregado());
 		cliente.setText(pedido.getCliente().getNombre());
+		btnItemsAgregar.setOnAction(e -> onItemAgregar());
+		btnItemsQuitar.setOnAction(e -> onItemQuitar());
+	}
+	
+	@Override
+	public void onCargar(Stage stage) {
+		MixinController.super.onCargar(stage);
+		stage.setMinWidth(main.getPrefWidth());
+		stage.setMinHeight(main.getPrefHeight());
+	}
+
+	private void onItemQuitar() {
+		List<FilaItemPedido> seleccionados = tablaItems.getItems().stream()
+			.filter(f -> f.getSeleccion().get())
+			.collect(Collectors.toList());
+		if (seleccionados.isEmpty()) {
+			return;
+		}
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Quitar items del pedido");
+		alert.setHeaderText("Confirmar baja de items");
+		alert.setContentText("¿Esta seguro de proceder? "
+				+ "La operación es reversible si presiona Cancelar");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+		    for (FilaItemPedido filaItemPedido : seleccionados) {
+				pedido.getItems().remove(filaItemPedido.getItemPedido());
+				tablaItems.getItems().remove(filaItemPedido);
+			}
+		}
+	}
+
+	private void onItemAgregar() {
+		ItemPedido itemPedido = new ItemPedido();
+		DialogoItemPedidoController controller = new DialogoItemPedidoController(itemPedido);
+		Optional<ItemPedido> optional = controller.getDialogo().showAndWait();
+		optional.ifPresent(i -> {
+			tablaItems.getItems().add(new FilaItemPedido(i));
+			pedido.getItems().add(i);
+		});
 	}
 }

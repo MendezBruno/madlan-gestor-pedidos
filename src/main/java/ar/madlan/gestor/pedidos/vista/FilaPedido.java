@@ -3,7 +3,6 @@ package ar.madlan.gestor.pedidos.vista;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -20,7 +19,6 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
-import ar.madlan.gestor.pedidos.modelo.Proceso;
 import ar.madlan.gestor.pedidos.util.Fecha;
 
 public class FilaPedido {
