@@ -23,7 +23,7 @@
                                  </graphic>
                               </TableColumn>
                             <TableColumn fx:id="columnaItemsCantidad" prefWidth="56.0" text="Cant." />
-                            <TableColumn fx:id="columnaItemsPedido" prefWidth="300.0" text="Pedido" />
+                            <TableColumn fx:id="columnaItemsPedido" prefWidth="280.0" text="Pedido" />
                               <TableColumn fx:id="columnaItemsPrecioUnitario" prefWidth="86.0" text="Precio unit." />
                               <TableColumn fx:id="columnaItemsImporte" prefWidth="82.0" text="Importe" />
                           </columns>
