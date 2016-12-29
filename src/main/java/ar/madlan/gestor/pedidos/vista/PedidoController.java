@@ -1,6 +1,7 @@
 package ar.madlan.gestor.pedidos.vista;
 
 import java.net.URL;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -128,8 +129,20 @@ public class PedidoController implements Initializable, MixinController {
 		cliente.setText(pedido.getCliente().getNombre());
 		btnItemsAgregar.setOnAction(e -> onItemAgregar());
 		btnItemsQuitar.setOnAction(e -> onItemQuitar());
+		btnPagosAgregar.setOnAction(e -> onPagoAgregar());
 	}
 	
+	private void onPagoAgregar() {
+		Pago pago = new Pago();
+		pago.setFecha(Instant.now());
+		DialogoPagoController controller = new DialogoPagoController(pago);
+		Optional<Pago> optional = controller.getDialogo().showAndWait();
+		optional.ifPresent(i -> {
+			tablaPagos.getItems().add(new FilaPago(i));
+			pedido.getPagos().add(i);
+		});
+	}
+
 	@Override
 	public void onCargar(Stage stage) {
 		MixinController.super.onCargar(stage);
