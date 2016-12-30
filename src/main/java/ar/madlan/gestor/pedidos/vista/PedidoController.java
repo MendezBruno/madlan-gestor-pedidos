@@ -113,6 +113,7 @@ public class PedidoController implements Initializable, MixinController {
 		columnaPagosSeleccion.setCellValueFactory(data -> data.getValue().getSeleccion());
 		columnaPagosFecha.setCellValueFactory(data -> data.getValue().getFecha());
 		columnaPagosMonto.setCellValueFactory(data -> data.getValue().getMonto());
+		tablaPagos.setRowFactory(tabla -> FilaPago.getRowFactory());
 		chkSeleccionItems.selectedProperty().addListener((obs, o, n) -> {
 			tablaItems.getItems().forEach(i -> i.getSeleccion().set(n));
 		});
@@ -133,8 +134,31 @@ public class PedidoController implements Initializable, MixinController {
 		btnItemsAgregar.setOnAction(e -> onItemAgregar());
 		btnItemsQuitar.setOnAction(e -> onItemQuitar());
 		btnPagosAgregar.setOnAction(e -> onPagoAgregar());
+		btnPagosQuitar.setOnAction(e -> onPagoQuitar());
 	}
 	
+	private void onPagoQuitar() {
+		List<FilaPago> seleccionados = tablaPagos.getItems().stream()
+				.filter(f -> f.getSeleccion().get())
+				.collect(Collectors.toList());
+		if (seleccionados.isEmpty()) {
+			return;
+		}
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Quitar pago");
+		alert.setHeaderText("Confirmar baja de items");
+		alert.setContentText("¿Esta seguro de proceder? "
+				+ "La operación es reversible si presiona Cancelar");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+		    for (FilaPago filaPago : seleccionados) {
+				pedido.getItems().remove(filaPago.getPago());
+				tablaItems.getItems().remove(filaPago);
+			}
+		}
+	}
+
 	private void onPagoAgregar() {
 		Pago pago = new Pago();
 		pago.setFecha(Instant.now());
