@@ -79,4 +79,27 @@ public class Pedido {
 	public Proceso getUltimoProceso() {
 		return procesos.get(procesos.size()-1);
 	}
+	
+	public Pedido duplicar(){
+		Pedido pedido = new Pedido();
+		pedido.numero = numero;
+		pedido.cliente = cliente;
+		pedido.entregado = entregado;
+		pedido.fechaIngreso = fechaIngreso;
+		pedido.fechaLimite = fechaLimite;
+		pedido.items.addAll(items);
+		pedido.pagos.addAll(pagos);
+		pedido.procesos.addAll(procesos);
+		return pedido;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj instanceof Pedido) {
+			return ((Pedido) obj).numero == numero;
+		} else {
+			return false;
+		}
+	}
 }
