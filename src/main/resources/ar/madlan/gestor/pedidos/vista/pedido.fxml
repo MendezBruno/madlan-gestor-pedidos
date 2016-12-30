@@ -94,10 +94,10 @@
                               <Label text="Fecha entrega" GridPane.rowIndex="1" />
                               <Label text="Entregado?" GridPane.rowIndex="2" />
                               <Label text="Cliente" GridPane.rowIndex="3" />
-                              <TextField fx:id="txtFechaIngreso" GridPane.columnIndex="1" />
-                              <TextField fx:id="txtFechaEntrega" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <CheckBox fx:id="chkEntregado" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Hyperlink fx:id="cliente" text="cliente" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <DatePicker fx:id="txtFechaIngreso" GridPane.columnIndex="1" />
+                              <DatePicker fx:id="txtFechaEntrega" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                      </children>

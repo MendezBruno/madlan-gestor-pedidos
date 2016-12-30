@@ -2,6 +2,8 @@ package ar.madlan.gestor.pedidos.vista;
 
 import java.net.URL;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -19,6 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -69,9 +72,9 @@ public class PedidoController implements Initializable, MixinController {
 	@FXML
 	private TextArea txtareaProceso;
 	@FXML
-	private TextField txtFechaIngreso;
+	private DatePicker txtFechaIngreso;
 	@FXML
-	private TextField txtFechaEntrega;
+	private DatePicker txtFechaEntrega;
 	@FXML
 	private CheckBox chkEntregado;
 	@FXML
@@ -123,8 +126,8 @@ public class PedidoController implements Initializable, MixinController {
 			tablaPagos.getItems().add(new FilaPago(pago));
 		}
 		txtareaProceso.setText(pedido.getUltimoProceso().getDescripcion());
-		txtFechaIngreso.setText(Fecha.formatter.format(pedido.getFechaIngreso()));
-		txtFechaEntrega.setText(Fecha.formatter.format(pedido.getFechaLimite()));
+		txtFechaIngreso.setValue(pedido.getFechaIngreso().atZone(ZoneId.systemDefault()).toLocalDate());
+		txtFechaEntrega.setValue(pedido.getFechaLimite().atZone(ZoneId.systemDefault()).toLocalDate());
 		chkEntregado.setSelected(pedido.entregado());
 		cliente.setText(pedido.getCliente().getNombre());
 		btnItemsAgregar.setOnAction(e -> onItemAgregar());
