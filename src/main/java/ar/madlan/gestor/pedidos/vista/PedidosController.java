@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
@@ -40,6 +41,9 @@ public class PedidosController implements Initializable, MixinController {
 	private TableColumn<FilaPedido, Boolean> columnaPago;
 	@FXML
 	private TableColumn<FilaPedido, String> columnaAcciones;
+	@FXML
+	private MenuItem menuBtnClientes;
+
 	private Modelo modelo;
 
 	private static final String RUTA_FXML = "pedidos.fxml";
@@ -67,6 +71,12 @@ public class PedidosController implements Initializable, MixinController {
 		for (Pedido pedido : modelo.getData().getPedidos()) {
 			tabla.getItems().add(new FilaPedido(pedido, modelo));
 		}
+
+		menuBtnClientes.setOnAction(e -> onClientes());
+	}
+
+	private void onClientes() {
+		new DialogoClientesController(modelo).getDialogo().showAndWait();
 	}
 
 	@Override
