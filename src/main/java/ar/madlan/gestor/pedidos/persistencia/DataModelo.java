@@ -1,6 +1,9 @@
-package ar.madlan.gestor.pedidos.modelo;
+package ar.madlan.gestor.pedidos.persistencia;
 
 import java.util.ArrayList;
+
+import ar.madlan.gestor.pedidos.modelo.Cliente;
+import ar.madlan.gestor.pedidos.modelo.Pedido;
 
 public class DataModelo {
 	private ArrayList<Pedido> pedidos = new ArrayList<>();

@@ -1,4 +1,4 @@
-package ar.madlan.gestor.pedidos.modelo;
+package ar.madlan.gestor.pedidos.persistencia;
 
 public interface Persistencia {
 	public DataModelo recuperar(String ruta) throws Exception;

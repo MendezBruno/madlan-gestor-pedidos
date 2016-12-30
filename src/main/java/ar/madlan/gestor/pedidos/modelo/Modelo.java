@@ -1,5 +1,8 @@
 package ar.madlan.gestor.pedidos.modelo;
 
+import ar.madlan.gestor.pedidos.persistencia.DataModelo;
+import ar.madlan.gestor.pedidos.persistencia.Persistencia;
+
 public class Modelo {
 	private static final String RUTA_PERSISTENCIA = "data.xml";
 	private Persistencia persistencia;
@@ -12,11 +15,11 @@ public class Modelo {
 			data = new DataModelo();
 		}
 	}
-	
+
 	public void persistir() throws Exception {
 		persistencia.persistir(RUTA_PERSISTENCIA, data);
 	}
-	
+
 	public DataModelo getData() {
 		return data;
 	}
