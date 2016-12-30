@@ -92,6 +92,8 @@ public class PedidoController implements Initializable, MixinController {
 
 	private ArrayList<Pedido> pedidos;
 
+	private Modelo modelo;
+
 	@Override
 	public String getFxml() {
 		return RUTA_FXML;
@@ -105,6 +107,7 @@ public class PedidoController implements Initializable, MixinController {
 	public PedidoController(Pedido pedido, Modelo modelo) {
 		this.pedido = pedido;
 		this.pedidos = modelo.getData().getPedidos();
+		this.modelo = modelo;
 	}
 
 	@Override
@@ -209,7 +212,12 @@ public class PedidoController implements Initializable, MixinController {
 		}
 		pedidos.removeIf(p -> p.equals(pedido));
 		pedidos.add(pedido);
-		stage.close();
+		try {
+			modelo.persistir();
+			stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void onItemQuitar() {
