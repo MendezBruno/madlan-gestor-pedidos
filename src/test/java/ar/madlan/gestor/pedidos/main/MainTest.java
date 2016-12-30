@@ -55,10 +55,14 @@ public class MainTest extends Application{
 		pedido.setFechaIngreso(Instant.now());
 		pedido.setFechaLimite(Instant.now());
 		pedido.setNumero(666);
-		Proceso proceso = new Proceso();
-		proceso.setDescripcion("Haciendo algo");
-		proceso.setFecha(Instant.now());
-		pedido.getProcesos().add(proceso);
+		Proceso proceso1 = new Proceso();
+		proceso1.setDescripcion("lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero lero ");
+		proceso1.setFecha(Instant.now());
+		Proceso proceso2 = new Proceso();
+		proceso2.setDescripcion("Haciendo algo");
+		proceso2.setFecha(Instant.now());
+		pedido.getProcesos().add(proceso1);
+		pedido.getProcesos().add(proceso2);
 //		pedido.setEntregado(true);
 
 		Modelo modelo = new Modelo();

@@ -13,6 +13,7 @@ import ar.madlan.gestor.pedidos.modelo.ItemPedido;
 import ar.madlan.gestor.pedidos.modelo.Modelo;
 import ar.madlan.gestor.pedidos.modelo.Pago;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
+import ar.madlan.gestor.pedidos.modelo.Proceso;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -31,9 +32,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class PedidoController implements Initializable, MixinController {
-	
+
 	private static final String RUTA_FXML = "pedido.fxml";
-	
+
 	@FXML
 	private AnchorPane main;
 	@FXML
@@ -82,28 +83,30 @@ public class PedidoController implements Initializable, MixinController {
 	private Button btnGuardar;
 	@FXML
 	private Button btnCancelar;
+	@FXML
+	private Button btnHistorialProceso;
 
 	private Pedido pedido;
 
 	private Stage stage;
 
 	private ArrayList<Pedido> pedidos;
-	
+
 	@Override
 	public String getFxml() {
 		return RUTA_FXML;
 	}
-	
+
 	@Override
 	public Parent getNode() {
 		return main;
 	}
-	
+
 	public PedidoController(Pedido pedido, Modelo modelo) {
 		this.pedido = pedido;
 		this.pedidos = modelo.getData().getPedidos();
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		columnaItemsSeleccion.setCellFactory(CheckBoxTableCell.forTableColumn(columnaItemsSeleccion));
@@ -141,12 +144,17 @@ public class PedidoController implements Initializable, MixinController {
 		btnPagosQuitar.setOnAction(e -> onPagoQuitar());
 		btnCancelar.setOnAction(e -> onCancelar());
 		btnGuardar.setOnAction(e -> onGuardar());
+		btnHistorialProceso.setOnAction(e -> onHistorialProceso());
+	}
+
+	private void onHistorialProceso() {
+		new DialogoHistorialProceso(pedido).getDialogo().showAndWait();
 	}
 
 	private void onCancelar() {
 		stage.close();
 	}
-	
+
 	private void onPagoQuitar() {
 		List<FilaPago> seleccionados = tablaPagos.getItems().stream()
 				.filter(f -> f.getSeleccion().get())
@@ -192,6 +200,13 @@ public class PedidoController implements Initializable, MixinController {
 		pedido.setFechaIngreso(Instant.from(txtFechaIngreso.getValue()));
 		pedido.setFechaLimite(Instant.from(txtFechaEntrega.getValue()));
 		pedido.setEntregado(chkEntregado.isSelected());
+		String txtProceso = txtareaProceso.getText();
+		if (!pedido.getUltimoProceso().getDescripcion().equals(txtProceso)){
+			Proceso proceso = new Proceso();
+			proceso.setDescripcion(txtProceso);
+			proceso.setFecha(Instant.now());
+			pedido.getProcesos().add(proceso);
+		}
 		pedidos.removeIf(p -> p.equals(pedido));
 		pedidos.add(pedido);
 		stage.close();
