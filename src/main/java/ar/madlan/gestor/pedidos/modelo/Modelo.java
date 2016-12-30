@@ -8,7 +8,7 @@ public class Modelo {
 	private Persistencia persistencia;
 	private DataModelo data;
 
-	public Modelo() {
+	public Modelo(Persistencia persistencia) {
 		try {
 			data = persistencia.recuperar(RUTA_PERSISTENCIA);
 		} catch (Exception e) {

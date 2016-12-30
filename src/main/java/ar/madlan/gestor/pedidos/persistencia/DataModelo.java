@@ -8,7 +8,7 @@ import ar.madlan.gestor.pedidos.modelo.Pedido;
 public class DataModelo {
 	private ArrayList<Pedido> pedidos = new ArrayList<>();
 	private ArrayList<Cliente> clientes = new ArrayList<>();
-	
+
 	public ArrayList<Pedido> getPedidos() {
 		return pedidos;
 	}

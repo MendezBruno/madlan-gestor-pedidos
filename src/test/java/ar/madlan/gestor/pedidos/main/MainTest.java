@@ -8,6 +8,7 @@ import ar.madlan.gestor.pedidos.modelo.Modelo;
 import ar.madlan.gestor.pedidos.modelo.Pago;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
 import ar.madlan.gestor.pedidos.modelo.Proceso;
+import ar.madlan.gestor.pedidos.persistencia.PersistenciaXML;
 import ar.madlan.gestor.pedidos.vista.PedidosController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -46,6 +47,7 @@ public class MainTest extends Application{
 		pago2.setMonto(5.0);
 		pago2.setFecha(Instant.now());
 		cliente.setNombre("Bruno");
+		cliente.setNombre("Mendez");
 		cliente.setNumero(666);
 		pedido.getItems().add(itemPedido1);
 		pedido.getItems().add(itemPedido2);
@@ -65,8 +67,9 @@ public class MainTest extends Application{
 		pedido.getProcesos().add(proceso2);
 //		pedido.setEntregado(true);
 
-		Modelo modelo = new Modelo();
+		Modelo modelo = new Modelo(null);
 		modelo.getData().getPedidos().add(pedido);
+		modelo.getData().getClientes().add(cliente);
 		return modelo;
 	}
 }

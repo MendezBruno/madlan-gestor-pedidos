@@ -12,31 +12,31 @@ public class Pedido {
 	private ArrayList<ItemPedido> items = new ArrayList<>();
 	private ArrayList<Pago> pagos = new ArrayList<>();
 	private Cliente cliente;
-	
+
 	public Double getMontoPagado() {
 		return pagos.stream().map(p -> p.getMonto()).reduce(Double::sum).orElse(0.0);
 	}
-	
+
 	public Double getMontoCosto() {
 		return items.stream().map(i -> i.getImporte()).reduce(Double::sum).orElse(0.0);
 	}
-	
+
 	public boolean pago() {
 		return getMontoCosto().equals(getMontoPagado());
 	}
-	
+
 	public Instant getFechaIngreso() {
 		return Instant.ofEpochMilli(fechaIngreso);
 	}
-	
+
 	public Instant getFechaLimite() {
 		return Instant.ofEpochMilli(fechaLimite);
 	}
-	
+
 	public void setFechaIngreso(Instant fecha) {
 		fechaIngreso = fecha.toEpochMilli();
 	}
-	
+
 	public void setFechaLimite(Instant fecha) {
 		fechaLimite = fecha.toEpochMilli();
 	}
@@ -79,7 +79,7 @@ public class Pedido {
 	public Proceso getUltimoProceso() {
 		return procesos.get(procesos.size()-1);
 	}
-	
+
 	public Pedido duplicar(){
 		Pedido pedido = new Pedido();
 		pedido.numero = numero;
@@ -92,7 +92,7 @@ public class Pedido {
 		pedido.procesos.addAll(procesos);
 		return pedido;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) return false;
