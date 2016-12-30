@@ -2,17 +2,17 @@ package ar.madlan.gestor.pedidos.vista;
 
 import java.net.URL;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import ar.madlan.gestor.pedidos.modelo.ItemPedido;
+import ar.madlan.gestor.pedidos.modelo.Modelo;
 import ar.madlan.gestor.pedidos.modelo.Pago;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
-import ar.madlan.gestor.pedidos.util.Fecha;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -26,7 +26,6 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -85,6 +84,10 @@ public class PedidoController implements Initializable, MixinController {
 	private Button btnCancelar;
 
 	private Pedido pedido;
+
+	private Stage stage;
+
+	private ArrayList<Pedido> pedidos;
 	
 	@Override
 	public String getFxml() {
@@ -96,8 +99,9 @@ public class PedidoController implements Initializable, MixinController {
 		return main;
 	}
 	
-	public PedidoController(Pedido pedido) {
+	public PedidoController(Pedido pedido, Modelo modelo) {
 		this.pedido = pedido;
+		this.pedidos = modelo.getData().getPedidos();
 	}
 	
 	@Override
@@ -135,6 +139,12 @@ public class PedidoController implements Initializable, MixinController {
 		btnItemsQuitar.setOnAction(e -> onItemQuitar());
 		btnPagosAgregar.setOnAction(e -> onPagoAgregar());
 		btnPagosQuitar.setOnAction(e -> onPagoQuitar());
+		btnCancelar.setOnAction(e -> onCancelar());
+		btnGuardar.setOnAction(e -> onGuardar());
+	}
+
+	private void onCancelar() {
+		stage.close();
 	}
 	
 	private void onPagoQuitar() {
@@ -173,8 +183,18 @@ public class PedidoController implements Initializable, MixinController {
 	@Override
 	public void onCargar(Stage stage) {
 		MixinController.super.onCargar(stage);
+		this.stage = stage;
 		stage.setMinWidth(main.getPrefWidth());
 		stage.setMinHeight(main.getPrefHeight());
+	}
+
+	private void onGuardar() {
+		pedido.setFechaIngreso(Instant.from(txtFechaIngreso.getValue()));
+		pedido.setFechaLimite(Instant.from(txtFechaEntrega.getValue()));
+		pedido.setEntregado(chkEntregado.isSelected());
+		pedidos.removeIf(p -> p.equals(pedido));
+		pedidos.add(pedido);
+		stage.close();
 	}
 
 	private void onItemQuitar() {

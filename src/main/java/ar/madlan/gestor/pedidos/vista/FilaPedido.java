@@ -18,6 +18,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ar.madlan.gestor.pedidos.modelo.Modelo;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
 import ar.madlan.gestor.pedidos.util.Fecha;
 
@@ -33,9 +34,11 @@ public class FilaPedido {
 	private BooleanProperty entregado = new SimpleBooleanProperty();
 	private BooleanProperty pago = new SimpleBooleanProperty();
 	private SplitMenuButton acciones = new SplitMenuButton();
+	private Modelo modelo;
 
-	public FilaPedido(Pedido pedido) {
+	public FilaPedido(Pedido pedido, Modelo modelo) {
 		setPedido(pedido);
+		this.modelo = modelo;
 		MenuItem menuItemEditar = new MenuItem("Editar");
 		MenuItem menuItemBorrar = new MenuItem("Borrar");
 		menuItemEditar.setOnAction(e -> onEditar());
@@ -60,6 +63,7 @@ public class FilaPedido {
 	private void onEditar() {
 		acciones.setText("Editar");
 		acciones.setOnAction(e -> onEditar());
+		onVer();
 	}
 	
 	private void onBorrar() {
@@ -71,7 +75,10 @@ public class FilaPedido {
 	private void onVer() {
 		try {
 			Stage ventanaPedido = new Stage();
-			PedidoController pedidoController = new PedidoController(pedido);
+			
+			// Se duplica el pedido para trabajar sobre una copia
+			// y poder descartar los cambios si se quiere
+			PedidoController pedidoController = new PedidoController(pedido.duplicar(), modelo);
 			pedidoController.cargar(ventanaPedido);
 			ventanaPedido.initOwner(PedidosController.stage.getScene().getWindow());
 			ventanaPedido.initModality(Modality.APPLICATION_MODAL);
