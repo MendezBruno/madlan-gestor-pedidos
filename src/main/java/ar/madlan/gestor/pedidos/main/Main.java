@@ -1,5 +1,6 @@
 package ar.madlan.gestor.pedidos.main;
 
+import ar.madlan.gestor.pedidos.modelo.Modelo;
 import ar.madlan.gestor.pedidos.vista.PedidosController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -12,7 +13,8 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		PedidosController controller = new PedidosController();
+		Modelo modelo = new Modelo();
+		PedidosController controller = new PedidosController(modelo);
 		controller.cargar(primaryStage);
 		primaryStage.show();
 	}

@@ -4,10 +4,10 @@ import java.time.Instant;
 
 import ar.madlan.gestor.pedidos.modelo.Cliente;
 import ar.madlan.gestor.pedidos.modelo.ItemPedido;
+import ar.madlan.gestor.pedidos.modelo.Modelo;
 import ar.madlan.gestor.pedidos.modelo.Pago;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
 import ar.madlan.gestor.pedidos.modelo.Proceso;
-import ar.madlan.gestor.pedidos.vista.FilaPedido;
 import ar.madlan.gestor.pedidos.vista.PedidosController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -20,13 +20,13 @@ public class MainTest extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		PedidosController controller = new PedidosController();
+		Modelo modelo = crearModelo();
+		PedidosController controller = new PedidosController(modelo);
 		controller.cargar(primaryStage);
-		controller.getPedidos().add(crearPedido());
 		primaryStage.show();
 	}
 
-	private FilaPedido crearPedido() {
+	private Modelo crearModelo() {
 		Pedido pedido = new Pedido();
 		ItemPedido itemPedido1 = new ItemPedido();
 		ItemPedido itemPedido2 = new ItemPedido();
@@ -60,6 +60,9 @@ public class MainTest extends Application{
 		proceso.setFecha(Instant.now());
 		pedido.getProcesos().add(proceso);
 //		pedido.setEntregado(true);
-		return new FilaPedido(pedido);
+
+		Modelo modelo = new Modelo();
+		modelo.getData().getPedidos().add(pedido);
+		return modelo;
 	}
 }
