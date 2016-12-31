@@ -1,11 +1,9 @@
 package ar.madlan.gestor.pedidos.vista;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 import ar.madlan.gestor.pedidos.modelo.Pago;
+import ar.madlan.gestor.pedidos.util.Fecha;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -19,19 +17,19 @@ import javafx.scene.layout.GridPane;
 public class DialogoPagoController implements MixinController {
 
 	private static final String RUTA_FXML = "dialogoPago.fxml";
-	
+
 	@FXML
 	private GridPane main;
 	@FXML
 	private DatePicker datePickerFecha;
 	@FXML
 	private TextField txtMonto;
-	
+
 	private Pago pago;
 	private Dialog<Pago> dialogo;
 	private ButtonType btnGuardarType;
 	private Node btnGuardar;
-	
+
 	public DialogoPagoController(Pago pago) {
 		this.pago = pago;
 		try {
@@ -46,16 +44,15 @@ public class DialogoPagoController implements MixinController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void init() {
 		txtMonto.setText(pago.getMonto()+"");
-		datePickerFecha.setValue(pago.getFecha()
-				.atZone(ZoneId.systemDefault()).toLocalDate());
+		datePickerFecha.setValue(Fecha.toLocalDate(pago.getFecha()));
 		txtMonto.textProperty().addListener((obs,o,n) -> validar());
 		datePickerFecha.getEditor().textProperty().addListener((obs,o,n) -> validar());
 		dialogo.setResultConverter(btnType -> {
 			if (btnType == btnGuardarType) {
-				pago.setFecha(Instant.from(datePickerFecha.getValue()));
+				pago.setFecha(Fecha.toInstant(datePickerFecha.getValue()));
 				pago.setMonto(Double.parseDouble(txtMonto.getText()));
 				return pago;
 			}
@@ -80,9 +77,7 @@ public class DialogoPagoController implements MixinController {
 		if (datePickerFecha.getEditor().getText().isEmpty()) {
 			conErrores = true;
 		}
-		try {
-			DateTimeFormatter.ofPattern("dd/MM/yyyy").parse(datePickerFecha.getEditor().getText());
-		} catch (Exception e) {
+		if (!Fecha.esParseable(datePickerFecha.getEditor().getText())) {
 			conErrores = true;
 		}
 		btnGuardar.setDisable(conErrores);

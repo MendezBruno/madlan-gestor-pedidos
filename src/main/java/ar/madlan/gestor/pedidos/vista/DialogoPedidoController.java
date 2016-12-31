@@ -1,12 +1,10 @@
 package ar.madlan.gestor.pedidos.vista;
 
-import java.net.URL;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import ar.madlan.gestor.pedidos.modelo.ItemPedido;
@@ -14,16 +12,19 @@ import ar.madlan.gestor.pedidos.modelo.Modelo;
 import ar.madlan.gestor.pedidos.modelo.Pago;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
 import ar.madlan.gestor.pedidos.modelo.Proceso;
+import ar.madlan.gestor.pedidos.util.Dialogos;
+import ar.madlan.gestor.pedidos.util.Fecha;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -31,7 +32,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class PedidoController implements Initializable, MixinController {
+public class DialogoPedidoController implements MixinController {
 
 	private static final String RUTA_FXML = "pedido.fxml";
 
@@ -78,21 +79,15 @@ public class PedidoController implements Initializable, MixinController {
 	@FXML
 	private CheckBox chkEntregado;
 	@FXML
-	private Hyperlink cliente;
-	@FXML
-	private Button btnGuardar;
-	@FXML
-	private Button btnCancelar;
+	private Label txtCliente;
 	@FXML
 	private Button btnHistorialProceso;
 
 	private Pedido pedido;
+	private Dialog<Pedido> dialogo;
+	private ButtonType btnGuardarType = new ButtonType("Guardar", ButtonData.OK_DONE);
 
-	private Stage stage;
-
-	private ArrayList<Pedido> pedidos;
-
-	private Modelo modelo;
+	private Node btnGuardar;
 
 	@Override
 	public String getFxml() {
@@ -104,14 +99,23 @@ public class PedidoController implements Initializable, MixinController {
 		return main;
 	}
 
-	public PedidoController(Pedido pedido, Modelo modelo) {
+	public DialogoPedidoController(Pedido pedido, Modelo modelo) {
 		this.pedido = pedido;
-		this.pedidos = modelo.getData().getPedidos();
-		this.modelo = modelo;
+
+		try {
+			cargar();
+			dialogo = new Dialog<Pedido>();
+			dialogo.getDialogPane().setContent(main);
+			dialogo.getDialogPane().getButtonTypes().addAll(btnGuardarType, ButtonType.CANCEL);
+			btnGuardar = dialogo.getDialogPane().lookupButton(btnGuardarType);
+
+			init();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	private void init() {
 		columnaItemsSeleccion.setCellFactory(CheckBoxTableCell.forTableColumn(columnaItemsSeleccion));
 		columnaItemsSeleccion.setCellValueFactory(data -> data.getValue().getSeleccion());
 		columnaItemsCantidad.setCellValueFactory(data -> data.getValue().getCantidad());
@@ -136,26 +140,77 @@ public class PedidoController implements Initializable, MixinController {
 		for (Pago pago : pedido.getPagos()) {
 			tablaPagos.getItems().add(new FilaPago(pago));
 		}
-		txtareaProceso.setText(pedido.getUltimoProceso().getDescripcion());
+		pedido.getUltimoProceso().ifPresent(p -> {
+			txtareaProceso.setText(p.getDescripcion());
+		});
 		txtFechaIngreso.setValue(pedido.getFechaIngreso().atZone(ZoneId.systemDefault()).toLocalDate());
 		txtFechaEntrega.setValue(pedido.getFechaLimite().atZone(ZoneId.systemDefault()).toLocalDate());
 		chkEntregado.setSelected(pedido.entregado());
-		cliente.setText(pedido.getCliente().getNombre());
+		txtCliente.setText(pedido.getCliente().toString());
 		btnItemsAgregar.setOnAction(e -> onItemAgregar());
 		btnItemsQuitar.setOnAction(e -> onItemQuitar());
 		btnPagosAgregar.setOnAction(e -> onPagoAgregar());
 		btnPagosQuitar.setOnAction(e -> onPagoQuitar());
-		btnCancelar.setOnAction(e -> onCancelar());
-		btnGuardar.setOnAction(e -> onGuardar());
 		btnHistorialProceso.setOnAction(e -> onHistorialProceso());
+
+		btnGuardar.addEventFilter(ActionEvent.ACTION, e -> {
+			if (!pasaValidacion()) {
+				e.consume();
+			}
+		});
+
+		dialogo.setResultConverter(dialogButton -> {
+			if (dialogButton == btnGuardarType) {
+				pedido.setFechaIngreso(Fecha.toInstant(txtFechaIngreso.getValue()));
+				pedido.setFechaLimite(Fecha.toInstant(txtFechaEntrega.getValue()));
+				pedido.setEntregado(chkEntregado.isSelected());
+				String txtProceso = txtareaProceso.getText();
+				Proceso ultimo = pedido.getUltimoProceso().orElse(new Proceso());
+				if (!txtProceso.equals(ultimo.getDescripcion())){
+					Proceso proceso = new Proceso();
+					proceso.setDescripcion(txtProceso);
+					proceso.setFecha(Instant.now());
+					pedido.getProcesos().add(proceso);
+				}
+				return pedido;
+		    }
+		    return null;
+		});
+	}
+
+	private boolean pasaValidacion() {
+		boolean valido = true;
+		boolean fechaIngresoParseable = true;
+		boolean fechaEntregaParseable = true;
+
+		if (!Fecha.esParseable(txtFechaIngreso.getEditor().getText())) {
+			valido = false;
+			fechaIngresoParseable = false;
+			Dialogos.advertir("Advertencia", "Datos inconsistentes",
+					"La fecha de ingreso no es valida");
+		}
+
+		if (!Fecha.esParseable(txtFechaEntrega.getEditor().getText())) {
+			valido = false;
+			fechaEntregaParseable = false;
+			Dialogos.advertir("Advertencia", "Datos inconsistentes",
+					"La fecha de entrega no es valida");
+		}
+
+		if (fechaIngresoParseable && fechaEntregaParseable) {
+			if (txtFechaEntrega.getValue().isBefore(txtFechaIngreso.getValue())) {
+				valido = false;
+				Dialogos.advertir("Advertencia", "Datos inconsistentes",
+						"La fecha de entrega es anterior a la de ingreso");
+
+			}
+		}
+
+		return valido;
 	}
 
 	private void onHistorialProceso() {
 		new DialogoHistorialProceso(pedido).getDialogo().showAndWait();
-	}
-
-	private void onCancelar() {
-		stage.close();
 	}
 
 	private void onPagoQuitar() {
@@ -165,14 +220,11 @@ public class PedidoController implements Initializable, MixinController {
 		if (seleccionados.isEmpty()) {
 			return;
 		}
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Quitar pago");
-		alert.setHeaderText("Confirmar baja de items");
-		alert.setContentText("¿Esta seguro de proceder? "
-				+ "La operación es reversible si presiona Cancelar");
 
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
+		boolean ok = Dialogos.preguntar("Quitar pago", "Confirmar baja de items",
+				"¿Esta seguro de proceder? La operación es reversible "
+				+ "si presiona Cancelar");
+		if (ok){
 		    for (FilaPago filaPago : seleccionados) {
 				pedido.getItems().remove(filaPago.getPago());
 				tablaItems.getItems().remove(filaPago);
@@ -194,30 +246,8 @@ public class PedidoController implements Initializable, MixinController {
 	@Override
 	public void onCargar(Stage stage) {
 		MixinController.super.onCargar(stage);
-		this.stage = stage;
 		stage.setMinWidth(main.getPrefWidth());
 		stage.setMinHeight(main.getPrefHeight());
-	}
-
-	private void onGuardar() {
-		pedido.setFechaIngreso(Instant.from(txtFechaIngreso.getValue()));
-		pedido.setFechaLimite(Instant.from(txtFechaEntrega.getValue()));
-		pedido.setEntregado(chkEntregado.isSelected());
-		String txtProceso = txtareaProceso.getText();
-		if (!pedido.getUltimoProceso().getDescripcion().equals(txtProceso)){
-			Proceso proceso = new Proceso();
-			proceso.setDescripcion(txtProceso);
-			proceso.setFecha(Instant.now());
-			pedido.getProcesos().add(proceso);
-		}
-		pedidos.removeIf(p -> p.equals(pedido));
-		pedidos.add(pedido);
-		try {
-			modelo.persistir();
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void onItemQuitar() {
@@ -227,14 +257,11 @@ public class PedidoController implements Initializable, MixinController {
 		if (seleccionados.isEmpty()) {
 			return;
 		}
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Quitar items del pedido");
-		alert.setHeaderText("Confirmar baja de items");
-		alert.setContentText("¿Esta seguro de proceder? "
-				+ "La operación es reversible si presiona Cancelar");
-
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
+		boolean ok = Dialogos.preguntar("Quitar items del pedido",
+				"Confirmar baja de items",
+				"¿Esta seguro de proceder? La operación es reversible "
+				+ "si presiona Cancelar");
+		if (ok){
 		    for (FilaItemPedido filaItemPedido : seleccionados) {
 				pedido.getItems().remove(filaItemPedido.getItemPedido());
 				tablaItems.getItems().remove(filaItemPedido);
@@ -250,5 +277,9 @@ public class PedidoController implements Initializable, MixinController {
 			tablaItems.getItems().add(new FilaItemPedido(i));
 			pedido.getItems().add(i);
 		});
+	}
+
+	public Dialog<Pedido> getDialogo() {
+		return dialogo;
 	}
 }

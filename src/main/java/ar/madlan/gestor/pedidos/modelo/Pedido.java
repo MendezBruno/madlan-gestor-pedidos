@@ -2,6 +2,7 @@ package ar.madlan.gestor.pedidos.modelo;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Pedido {
 	private int numero;
@@ -12,6 +13,21 @@ public class Pedido {
 	private ArrayList<ItemPedido> items = new ArrayList<>();
 	private ArrayList<Pago> pagos = new ArrayList<>();
 	private Cliente cliente;
+	private static int maxId;
+
+	public Pedido() {
+		numero = nextId();
+	}
+
+	private int nextId() {
+		int id = maxId;
+		maxId++;
+		return id;
+	}
+
+	public static void setMaxId(int id) {
+		maxId = id;
+	}
 
 	public Double getMontoPagado() {
 		return pagos.stream().map(p -> p.getMonto()).reduce(Double::sum).orElse(0.0);
@@ -76,8 +92,11 @@ public class Pedido {
 	public ArrayList<Proceso> getProcesos() {
 		return procesos;
 	}
-	public Proceso getUltimoProceso() {
-		return procesos.get(procesos.size()-1);
+	public Optional<Proceso> getUltimoProceso() {
+		if (procesos.isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of(procesos.get(procesos.size()-1));
 	}
 
 	public Pedido duplicar(){

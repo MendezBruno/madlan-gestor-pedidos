@@ -74,6 +74,14 @@
                      <children>
                         <Label text="Proceso" />
                         <TextArea fx:id="txtareaProceso" prefHeight="200.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER_RIGHT">
+                           <children>
+                              <Button fx:id="btnHistorialProceso" mnemonicParsing="false" text="Historial de proceso..." />
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </HBox>
                      </children>
                   </VBox>
                   <VBox prefHeight="126.0" prefWidth="243.0" HBox.hgrow="NEVER">
@@ -95,26 +103,15 @@
                               <Label text="Entregado?" GridPane.rowIndex="2" />
                               <Label text="Cliente" GridPane.rowIndex="3" />
                               <CheckBox fx:id="chkEntregado" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Hyperlink fx:id="cliente" text="cliente" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <DatePicker fx:id="txtFechaIngreso" GridPane.columnIndex="1" />
                               <DatePicker fx:id="txtFechaEntrega" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="txtCliente" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <AnchorPane prefHeight="25.0" prefWidth="819.0">
-               <children>
-                  <Button fx:id="btnHistorialProceso" mnemonicParsing="false" text="Historial de proceso..." />
-                  <HBox spacing="15.0" AnchorPane.rightAnchor="0.0">
-                     <children>
-                        <Button fx:id="btnGuardar" mnemonicParsing="false" text="Guardar" />
-                        <Button fx:id="btnCancelar" mnemonicParsing="false" text="Cancelar" />
-                     </children>
-                  </HBox>
-               </children>
-            </AnchorPane>
          </children>
       </VBox>
    </children>

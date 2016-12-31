@@ -1,0 +1,76 @@
+<ar.madlan.gestor.pedidos.persistencia.DataModelo>
+  <pedidos>
+    <ar.madlan.gestor.pedidos.modelo.Pedido>
+      <numero>4</numero>
+      <fechaIngreso>1482894000000</fechaIngreso>
+      <fechaLimite>1483671600000</fechaLimite>
+      <entregado>true</entregado>
+      <procesos>
+        <ar.madlan.gestor.pedidos.modelo.Proceso>
+          <fecha>1483207930451</fecha>
+          <descripcion></descripcion>
+        </ar.madlan.gestor.pedidos.modelo.Proceso>
+        <ar.madlan.gestor.pedidos.modelo.Proceso>
+          <fecha>1483208056682</fecha>
+          <descripcion>En proceso</descripcion>
+        </ar.madlan.gestor.pedidos.modelo.Proceso>
+      </procesos>
+      <items>
+        <ar.madlan.gestor.pedidos.modelo.ItemPedido>
+          <fechaCreacion>1483208089371</fechaCreacion>
+          <precioUnitario>1.0</precioUnitario>
+          <descripcion>Muchas cozas</descripcion>
+          <cantidad>44.0</cantidad>
+        </ar.madlan.gestor.pedidos.modelo.ItemPedido>
+      </items>
+      <pagos>
+        <ar.madlan.gestor.pedidos.modelo.Pago>
+          <monto>44.0</monto>
+          <fecha>1483153200000</fecha>
+        </ar.madlan.gestor.pedidos.modelo.Pago>
+      </pagos>
+      <cliente>
+        <nombre>Patricia</nombre>
+        <apellido>Etcheverry</apellido>
+        <numero>0</numero>
+      </cliente>
+    </ar.madlan.gestor.pedidos.modelo.Pedido>
+    <ar.madlan.gestor.pedidos.modelo.Pedido>
+      <numero>1</numero>
+      <fechaIngreso>1480388400000</fechaIngreso>
+      <fechaLimite>1486522800000</fechaLimite>
+      <entregado>false</entregado>
+      <procesos>
+        <ar.madlan.gestor.pedidos.modelo.Proceso>
+          <fecha>1483203867608</fecha>
+          <descripcion>sfddsfsd</descripcion>
+        </ar.madlan.gestor.pedidos.modelo.Proceso>
+        <ar.madlan.gestor.pedidos.modelo.Proceso>
+          <fecha>1483208427075</fecha>
+          <descripcion>Ahora si</descripcion>
+        </ar.madlan.gestor.pedidos.modelo.Proceso>
+      </procesos>
+      <items/>
+      <pagos/>
+      <cliente>
+        <nombre>asdasd</nombre>
+        <apellido>asdasd eh</apellido>
+        <numero>0</numero>
+      </cliente>
+    </ar.madlan.gestor.pedidos.modelo.Pedido>
+    <ar.madlan.gestor.pedidos.modelo.Pedido>
+      <numero>5</numero>
+      <fechaIngreso>1483153200000</fechaIngreso>
+      <fechaLimite>1486177200000</fechaLimite>
+      <entregado>false</entregado>
+      <procesos/>
+      <items/>
+      <pagos/>
+      <cliente reference="../../ar.madlan.gestor.pedidos.modelo.Pedido/cliente"/>
+    </ar.madlan.gestor.pedidos.modelo.Pedido>
+  </pedidos>
+  <clientes>
+    <ar.madlan.gestor.pedidos.modelo.Cliente reference="../../pedidos/ar.madlan.gestor.pedidos.modelo.Pedido[2]/cliente"/>
+    <ar.madlan.gestor.pedidos.modelo.Cliente reference="../../pedidos/ar.madlan.gestor.pedidos.modelo.Pedido/cliente"/>
+  </clientes>
+</ar.madlan.gestor.pedidos.persistencia.DataModelo>

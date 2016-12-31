@@ -20,8 +20,7 @@ public class PersistenciaXML implements Persistencia{
 			path+=".xml";
 		}
 		FileWriter out = new FileWriter(path);
-		XStream xStream = new XStream();
-		xStream.toXML(this, out);
+		xstream.toXML(data, out);
 		out.close();
 	}
 }

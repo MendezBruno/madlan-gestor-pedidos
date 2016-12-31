@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import java.net.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
@@ -43,8 +44,8 @@
                   <TableView fx:id="tabla" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="columnaCliente" prefWidth="75.0" text="Cliente" />
-                        <TableColumn fx:id="columnaFechaLimite" prefWidth="83.0" text="Fecha límite" />
-                        <TableColumn fx:id="columnaDetalle" prefWidth="106.0" text="Detalle" />
+                        <TableColumn fx:id="columnaFechaLimite" prefWidth="103.0" text="Fecha límite" />
+                        <TableColumn fx:id="columnaDetalle" prefWidth="75.0" text="Detalle" />
                       <TableColumn fx:id="columnaMonto" prefWidth="68.0" text="Monto ($)" />
                         <TableColumn fx:id="columnaPagado" prefWidth="78.0" text="Pagado ($)" />
                       <TableColumn fx:id="columnaProceso" prefWidth="70.0" text="Proceso" />
@@ -53,6 +54,18 @@
                         <TableColumn fx:id="columnaAcciones" prefWidth="98.0" text="Acciones" />
                     </columns>
                   </TableView>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: white;">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9ead3" height="15.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="15.0" />
+                        <Label text="Entregado" />
+                        <Separator orientation="VERTICAL" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4cccc" height="15.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="15.0" />
+                        <Label text="15 dias o menos para la entrega" />
+                     </children>
+                  </HBox>
                </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

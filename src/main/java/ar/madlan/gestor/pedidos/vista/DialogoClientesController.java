@@ -59,6 +59,7 @@ public class DialogoClientesController implements MixinController{
 	private void init() {
 		columnaApellido.setCellValueFactory(data -> data.getValue().getApellido());
 		columnaNombre.setCellValueFactory(data -> data.getValue().getNombre());
+		tabla.setRowFactory(tabla -> FilaCliente.getRowFactory());
 
 		for (Cliente cliente : clientes) {
 			tabla.getItems().add(new FilaCliente(cliente, modelo));

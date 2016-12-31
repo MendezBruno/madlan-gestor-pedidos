@@ -2,6 +2,10 @@ package ar.madlan.gestor.pedidos.vista;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import ar.madlan.gestor.pedidos.modelo.Modelo;
@@ -26,7 +30,7 @@ public class PedidosController implements Initializable, MixinController {
 	@FXML
 	private TableColumn<FilaPedido, String> columnaCliente;
 	@FXML
-	private TableColumn<FilaPedido, String> columnaFechaLimite;
+	private TableColumn<FilaPedido, LocalDate> columnaFechaLimite;
 	@FXML
 	private TableColumn<FilaPedido, String> columnaDetalle;
 	@FXML
@@ -43,11 +47,12 @@ public class PedidosController implements Initializable, MixinController {
 	private TableColumn<FilaPedido, String> columnaAcciones;
 	@FXML
 	private MenuItem menuBtnClientes;
-
-	private Modelo modelo;
+	@FXML
+	private MenuItem menuBtnNuevoPedido;
 
 	private static final String RUTA_FXML = "pedidos.fxml";
 	public static Stage stage;
+	private Modelo modelo;
 
 	public PedidosController(Modelo modelo) {
 		this.modelo = modelo;
@@ -62,17 +67,39 @@ public class PedidosController implements Initializable, MixinController {
 		columnaEntregado.setCellValueFactory(data -> data.getValue().getEntregado());
 		columnaPago.setCellValueFactory(data -> data.getValue().getPago());
 
+		columnaFechaLimite.setCellFactory(tc -> FilaPedido.getTableCellFechaLimite());
 		columnaDetalle.setCellFactory(tc -> FilaPedido.getTableCellDetalle());
 		columnaEntregado.setCellFactory(CheckBoxTableCell.forTableColumn(columnaEntregado));
 		columnaPago.setCellFactory(CheckBoxTableCell.forTableColumn(columnaPago));
 		columnaAcciones.setCellFactory(tc -> FilaPedido.getTableCellAcciones());
 		tabla.setRowFactory(tabla -> FilaPedido.getTableRow(tabla));
 
-		for (Pedido pedido : modelo.getData().getPedidos()) {
-			tabla.getItems().add(new FilaPedido(pedido, modelo));
-		}
+		setPedidos();
 
 		menuBtnClientes.setOnAction(e -> onClientes());
+		menuBtnNuevoPedido.setOnAction(e -> onNuevoPedido());
+	}
+	private void setPedidos() {
+		tabla.getItems().clear();
+		for (Pedido pedido : modelo.getData().getPedidos()) {
+			tabla.getItems().add(new FilaPedido(pedido, modelo, this));
+		}
+	}
+
+	private void onNuevoPedido() {
+		Pedido pedido = new Pedido();
+		pedido.setFechaIngreso(Instant.now());
+		DialogoAltaPedidoController controller = new DialogoAltaPedidoController(pedido, modelo);
+		Optional<Pedido> optional = controller.getDialogo().showAndWait();
+		optional.ifPresent(p -> {
+			try {
+				modelo.getData().getPedidos().add(p);
+				setPedidos();
+				modelo.persistir();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	private void onClientes() {
@@ -97,5 +124,10 @@ public class PedidosController implements Initializable, MixinController {
 
 	public ObservableList<FilaPedido> getPedidos() {
 		return tabla.getItems();
+	}
+
+	public void actualizar() {
+		ArrayList<FilaPedido> lista = new ArrayList<>(tabla.getItems());
+		tabla.getItems().setAll(lista);
 	}
 }
