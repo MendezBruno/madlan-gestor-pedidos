@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fx:id="main" prefHeight="500.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox fx:id="vBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="554.0" stylesheets="@comun.css">
+         <children>
+            <AnchorPane>
+               <children>
+                  <Label fx:id="lblPedidos" prefHeight="40.0" styleClass="titulo" text="Detalle de pedido" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" />
+                  <Button fx:id="btnExportar" layoutX="28.0" mnemonicParsing="false" text="Imprimir..." AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+               </children>
+            </AnchorPane>
+            <TableView fx:id="tablaItems" editable="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="columnaItemsCantidad" prefWidth="45.0" text="Cant." />
+                  <TableColumn fx:id="columnaItemsPedido" prefWidth="188.0" text="Pedido" />
+                  <TableColumn fx:id="columnaItemsObservacion" prefWidth="147.0" text="Observacion" />
+                  <TableColumn fx:id="columnaItemsPrecioUnitario" prefWidth="75.0" text="Precio unit." />
+                  <TableColumn fx:id="columnaItemsImporte" prefWidth="63.0" text="Importe" />
+               </columns>
+            </TableView>
+            <HBox alignment="CENTER_RIGHT">
+               <children>
+                  <Label styleClass="titulo" text="Total: " />
+                  <Label fx:id="lblMonto" styleClass="titulo" text="monto" />
+               </children>
+            </HBox>
+            <Separator prefWidth="200.0" />
+            <HBox alignment="CENTER">
+               <children>
+                  <Label text="Detalle generado por Madlan Gestor de pedidos" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="30.0" />
+         </padding>
+      </VBox>
+   </content>
+</ScrollPane>

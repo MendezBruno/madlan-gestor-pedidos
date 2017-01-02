@@ -28,15 +28,27 @@
                               <TableColumn fx:id="columnaItemsImporte" prefWidth="82.0" text="Importe" />
                           </columns>
                         </TableView>
-                        <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="15.0">
+                        <AnchorPane>
                            <children>
-                              <Button fx:id="btnItemsAgregar" mnemonicParsing="false" text="Agregar" />
-                              <Button fx:id="btnItemsQuitar" mnemonicParsing="false" text="Quitar seleccionados" />
+                              <HBox alignment="CENTER_RIGHT" prefWidth="250.0" spacing="15.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btnItemsAgregar" mnemonicParsing="false" text="Agregar" />
+                                    <Button fx:id="btnItemsQuitar" mnemonicParsing="false" text="Quitar seleccionados" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <Button fx:id="btnItemsImprimir" mnemonicParsing="false" text="Imprimir..." AnchorPane.leftAnchor="0.0" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </HBox>
                            </children>
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding>
-                        </HBox>
+                        </AnchorPane>
                      </children>
                   </VBox>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />

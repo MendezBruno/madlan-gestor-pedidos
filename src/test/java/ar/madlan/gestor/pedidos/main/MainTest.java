@@ -8,7 +8,6 @@ import ar.madlan.gestor.pedidos.modelo.Modelo;
 import ar.madlan.gestor.pedidos.modelo.Pago;
 import ar.madlan.gestor.pedidos.modelo.Pedido;
 import ar.madlan.gestor.pedidos.modelo.Proceso;
-import ar.madlan.gestor.pedidos.persistencia.PersistenciaXML;
 import ar.madlan.gestor.pedidos.vista.PedidosController;
 import javafx.application.Application;
 import javafx.stage.Stage;

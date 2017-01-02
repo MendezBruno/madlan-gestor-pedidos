@@ -53,6 +53,8 @@ public class DialogoPedidoController implements MixinController {
 	@FXML
 	private CheckBox chkSeleccionItems;
 	@FXML
+	private Button btnItemsImprimir;
+	@FXML
 	private Button btnItemsAgregar;
 	@FXML
 	private Button btnItemsQuitar;
@@ -86,7 +88,6 @@ public class DialogoPedidoController implements MixinController {
 	private Pedido pedido;
 	private Dialog<Pedido> dialogo;
 	private ButtonType btnGuardarType = new ButtonType("Guardar", ButtonData.OK_DONE);
-
 	private Node btnGuardar;
 
 	@Override
@@ -147,6 +148,7 @@ public class DialogoPedidoController implements MixinController {
 		txtFechaEntrega.setValue(pedido.getFechaLimite().atZone(ZoneId.systemDefault()).toLocalDate());
 		chkEntregado.setSelected(pedido.entregado());
 		txtCliente.setText(pedido.getCliente().toString());
+		btnItemsImprimir.setOnAction(e -> onItemsImprimir());
 		btnItemsAgregar.setOnAction(e -> onItemAgregar());
 		btnItemsQuitar.setOnAction(e -> onItemQuitar());
 		btnPagosAgregar.setOnAction(e -> onPagoAgregar());
@@ -176,6 +178,11 @@ public class DialogoPedidoController implements MixinController {
 		    }
 		    return null;
 		});
+	}
+
+	private void onItemsImprimir() {
+		DialogoPedidoImprimirController controller = new DialogoPedidoImprimirController(pedido);
+		controller.getDialogo().showAndWait();
 	}
 
 	private boolean pasaValidacion() {
